@@ -6,6 +6,25 @@
 <a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/v/stable.svg" alt="Latest Stable Version"></a>
 <a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/license.svg" alt="License"></a>
 </p>
+## Steps To do
+
+pull the project
+
+composer install
+
+npm install
+
+create and set you .env file
+
+php artisan key:generate.
+
+php artisan migrate
+
+composer dump-autoload
+
+php artisan db:seed
+
+php artsan serve
 
 ## About Laravel
 
