@@ -27,7 +27,7 @@
     </div>
     <div class="container p-8 flex flex-wrap justify-between w-full">
     @foreach($contacts as $contact)
-        <div class="w-1/3 flex my-5 overflow-hidden">
+        <div class="w-1/3 flex my-5">
             <div class="shadow-2xl border-r border-b border-l border-gray-400 lg:border-l-0 lg:border-t lg:border-gray-400 bg-white rounded-b lg:rounded-b-none lg:rounded-r p-4 flex flex-col justify-between leading-normal">
                 <div class="flex items-center">
                     <img class="w-10 h-10 rounded-full mr-4" src="{{$contact->avatar}}" alt="Avatar">

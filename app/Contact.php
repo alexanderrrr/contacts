@@ -21,7 +21,7 @@ class Contact extends Model
 
     public function getAvatarAttribute($value)
     {
-        return $value ? '/upload/images/' . $value : '';
+        return filter_var($value, FILTER_VALIDATE_URL) ? $value : '/upload/images/' . $value;
     }
 
     public function groups()
