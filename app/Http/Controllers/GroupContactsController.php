@@ -11,7 +11,7 @@ class GroupContactsController extends Controller
 {
     public function index(Request $request) {
         $group = Group::findOrFail($request->get('group'));
-        $contacts = $group->contacts()->latest()->simplePaginate(10);
+        $contacts = $group->contacts()->latest()->simplePaginate(6);
 
         $contacts->setPath('group-contacts?group='.$request->get('group'));
 
@@ -24,9 +24,9 @@ class GroupContactsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(Contact $contact)
+    public function show(Contact $contact, $groupId = null)
     {
-        return view('create', ['contact' => $contact]);
+        return view('edit', ['contact' => $contact, 'group' => $groupId]);
     }
 
     /**

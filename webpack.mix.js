@@ -19,3 +19,5 @@ mix.sass('resources/sass/app.scss', 'resources/css')
         processCssUrls: false,
         postCss: [ tailwindcss('tailwind.config.js') ],
     })
+
+mix.copy('resources/assets/testImage.jpeg', 'public/upload/images/avatar/testImage.jpeg');

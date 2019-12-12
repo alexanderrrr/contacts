@@ -26,10 +26,21 @@ class CreateRequest extends FormRequest
         return [
             'first_name' => 'required',
             'last_name' => 'required',
-            'email' => 'email|required',
-            'zip' => 'numeric',
+            'email' => 'email|required|unique:contacts,email',
+            'zip' => 'numeric|max:2147483648',
             'phone' => 'min:6',
-            'avatar' => 'required|image|max:5000'
+            'avatar' => 'required|image|max:5000',
+            'note'  => 'required|min:50'
+        ];
+    }
+
+    /**
+     * @return array of custom messages
+     */
+    public function messages()
+    {
+        return [
+            'avatar.max' => "Max image size is 5mb.",
         ];
     }
 }

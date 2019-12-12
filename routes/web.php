@@ -13,13 +13,14 @@
 
 Route::get('/', 'HomeController@home');
 Route::get('/group-contacts', 'GroupContactsController@index');
-Route::delete('/group-contacts/{group}/delete/{contact}', 'GroupContactsController@destroy');
+Route::delete('/group-contacts/{group}/contacts/{contact}/delete', 'GroupContactsController@destroy');
 Route::get('/update/{contact}', 'GroupContactsController@show');
+Route::get('groups/{groupId}/contacts', 'ContactsController@show');
 
 Route::group(['prefix' => 'contacts'], function () {
-    Route::get('create/{contactId?}/group/{groupId?}', 'ContactsController@show');
+    Route::get('edit/{contact?}/group/{groupId?}', 'GroupContactsController@show');
     Route::post('create', 'ContactsController@create');
-    Route::post('update/{contact}', 'ContactsController@edit');
-    Route::get('read/{contact}', 'ContactsController@read');
+    Route::put('update/{contact}', 'ContactsController@edit');
+    Route::get('{contact}/readNote', 'ContactsController@read');
 });
 

@@ -9,11 +9,11 @@
 
 @section('content')
     <div class="w-full text-center">
-    <form action="{{ !isset($contact) ? "/contacts/create" : "/contacts/update/$contact->id" }}" method="POST" class="float-left w-full p-8">
+    <form action="/contacts/create" method="POST" enctype="multipart/form-data" class="float-left w-full p-8">
         @csrf
-        @if($contact ?? '')
-            <img class="w-32 h-32 rounded-full mr-4" src="{{$contact ? $contact->avatar : ""}}" alt="Avatar of {{$contact ? $contact->first_name : ""}}">
-        @endif
+        <div id="image-container">
+            <img id="nodi" class="w-32 h-32 rounded-full mr-4" src="" alt="Avatar">
+        </div>
         <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
             <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-first-name">
                 Avatar Image
@@ -21,10 +21,11 @@
             <input
                 name="avatar"
                 class="appearance-none block w-full text-gray-700 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
-                id="grid-first-name"
+                id="grid-avatar"
                 type="file"
-                value="{{ isset($contact) ? $contact->avatar : "" }}"
-                placeholder="Image">
+                placeholder="Image"
+                onchange="onUploadImage(event)"
+            >
             @include('partials.errors', ['field' => 'avatar'])
         </div>
         <div class="flex flex-wrap -mx-3 mb-6 mt-5">
@@ -37,7 +38,7 @@
                     class="appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
                     id="grid-first-name"
                     type="text"
-                    value="{{ isset($contact) ? $contact->first_name : "" }}"
+                    value="{{ old('first_name') }}"
                     placeholder="First Name">
                 @include('partials.errors', ['field' => 'first_name'])
             </div>
@@ -50,7 +51,7 @@
                     class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                     id="grid-last-name"
                     type="text"
-                    value="{{ isset($contact) ? $contact->last_name : "" }}"
+                    value="{{ old('last_name') }}"
                     placeholder="Last Name">
                 @include('partials.errors', ['field' => 'last_name'])
             </div>
@@ -63,9 +64,9 @@
                 <input
                     name="email"
                     class="appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
-                    id="grid-first-name"
+                    id="grid-email"
                     type="text"
-                    value="{{ isset($contact) ? $contact->email : "" }}"
+                    value="{{ old('email') }}"
                     placeholder="email">
                 @include('partials.errors', ['field' => 'email'])
             </div>
@@ -76,9 +77,9 @@
                 <input
                     name="phone"
                     class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                    id="grid-last-name"
+                    id="grid-phone"
                     type="text"
-                    value="{{ isset($contact) ? $contact->phone : "" }}"
+                    value="{{ old('phone') }}"
                     placeholder="Phone number">
                 @include('partials.errors', ['field' => 'phone'])
             </div>
@@ -93,7 +94,7 @@
                     class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                     id="grid-city"
                     type="text"
-                    value="{{ isset($contact) ? $contact->city : "" }}"
+                    value="{{ old('city') }}"
                     placeholder="City"
                 >
                 @include('partials.errors', ['field' => 'city'])
@@ -105,9 +106,9 @@
                 <input
                     name="address"
                     class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                    id="grid-city"
+                    id="grid-address"
                     type="text"
-                    value="{{ isset($contact) ? $contact->address : "" }}"
+                    value="{{ old('address') }}"
                     placeholder="Address"
                 >
                 @include('partials.errors', ['field' => 'address'])
@@ -122,7 +123,7 @@
                     class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                     id="grid-zip"
                     type="number"
-                    value="{{ isset($contact) ? $contact->zip : "" }}"
+                    value="{{ old('zip') }}"
                     placeholder="Zip">
                 @include('partials.errors', ['field' => 'zip'])
             </div>
@@ -134,8 +135,8 @@
                     /* box-sizing: padding-box; */
                     overflow:hidden;
                     /* demo only: */
-                    padding:10px;
-                    width: 100%;
+                    padding:2px;
+                    width: 50%;
                     font-size:14px;
                     display:inline-block;
                     border-radius:10px;
@@ -147,15 +148,16 @@
                 class="mine-textarea"
                 id="myArea"
                 placeholder="We build fine acmes."
-                rows="{{ isset($contact) ? "25" : '15' }}"
+                value="{{ old('note') }}"
+                cols='60'
+                rows='8'
             >
-            {{ isset($contact) ? $contact->note : "" }}
-        </textarea>
-            @include('partials.errors', ['field' => 'notes'])
+            </textarea>
+            @include('partials.errors', ['field' => 'note'])
         </div>
         <div class="w-full px-3 mb-6 md:mb-0">
             <button type="submit" class="mt-8 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 border border-blue-700 rounded">
-                {{ isset($contact) ? "Update" : "Create" }}
+                Create
             </button>
         </div>
     </form>
@@ -172,6 +174,22 @@
                     // el.style.cssText = '-moz-box-sizing:content-box';
                     el.style.cssText = 'height:' + el.scrollHeight + 'px';
                 },0);
+            }
+
+            function onUploadImage(e) {
+                if (e.target.files.length) {
+                    let f = e.target.files[0];
+                    var r = new FileReader();
+                    r.onload = function(e) {
+                        let elem = document.getElementById('nodi');
+                        elem.src = r.result;
+                        elem.classList.remove('hidden');
+                    };
+
+                    r.readAsDataURL(f);
+                } else {
+                    document.getElementById('nodi').classList.add('hidden');
+                }
             }
         </script>
     </div>
