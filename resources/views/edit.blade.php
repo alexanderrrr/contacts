@@ -158,7 +158,7 @@
             </div>
             <div class="w-full px-3 mb-6 md:mb-0">
                 <button type="submit" class="mt-8 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 border border-blue-700 rounded">
-                    {{ isset($contact) ? "Update" : "Create" }}
+                    Update
                 </button>
             </div>
         </form>
