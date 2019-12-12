@@ -8,7 +8,10 @@
 </p>
 ## Steps To do
 
+
 pull the project
+
+give sudo permissions to public/upload/images/avatar
 
 composer install
 
@@ -23,6 +26,8 @@ php artisan migrate
 composer dump-autoload
 
 php artisan db:seed
+
+npm run watch-poll
 
 php artsan serve
 
