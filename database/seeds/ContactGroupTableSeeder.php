@@ -13,10 +13,21 @@ class ContactGroupTableSeeder extends Seeder
      */
     public function run()
     {
-        Contact::chunk(100, function ($contacts) {
+        $pivot = collect();
+
+        Contact::chunk(500, function ($contacts) use ($pivot) {
             foreach ($contacts as $contact) {
-                $contact->groups()->attach(Group::inRandomOrder()->first()->id);
+                $pivot[] = [
+                    "contact_id" => $contact->id,
+                    'group_id'   => Group::inRandomOrder()->first()->id
+                ];
             }
         });
+
+        foreach ($pivot->chunk(500) as $chunk) {
+            \DB::table('contact_group')->insert($chunk->toArray());
+        }
+        
+        $pivot = collect();
     }
 }
